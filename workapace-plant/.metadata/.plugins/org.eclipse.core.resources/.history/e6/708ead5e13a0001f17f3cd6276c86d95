@@ -1,0 +1,39 @@
+package com.future.plant.member.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.future.plant.member.dao.IMemberDAO;
+import com.future.plant.member.exception.LoginFailedException;
+import com.future.plant.member.vo.MemberVO;
+
+@Service
+public class MemberService {
+	
+	@Autowired
+	IMemberDAO dao;
+	
+	public void signUpMember(MemberVO vo) throws Exception {
+		
+		int result = dao.signUpMember(vo);
+		
+		if(result == 0) {
+			throw new Exception();
+		}
+		
+	}
+	
+	public MemberVO loginMember(MemberVO vo) throws Exception {
+		
+		MemberVO user = dao.loginMember(vo);
+		
+		if(user == null) {
+			throw new Exception();
+		}
+		
+		return user;
+		
+	}
+	
+	
+}

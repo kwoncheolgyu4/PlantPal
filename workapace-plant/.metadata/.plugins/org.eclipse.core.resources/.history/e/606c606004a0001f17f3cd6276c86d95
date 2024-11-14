@@ -1,0 +1,13 @@
+package com.future.plant.member.vo;
+
+import lombok.Data;
+
+@Data
+public class memberVO {
+	
+	String userId;
+	String userPw;
+	String userNm;
+	
+	
+}

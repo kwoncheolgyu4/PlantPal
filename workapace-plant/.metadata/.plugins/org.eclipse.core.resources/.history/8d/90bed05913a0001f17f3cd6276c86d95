@@ -1,0 +1,90 @@
+package com.future.plant.member.web;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import com.future.plant.member.exception.LoginFailedException;
+import com.future.plant.member.service.MemberService;
+import com.future.plant.member.vo.MemberVO;
+
+import jakarta.servlet.http.HttpSession;
+
+@Controller
+public class MemberController {
+	
+	@Autowired
+	MemberService service;
+	
+	@GetMapping("/signUp")
+	public String signUp() {
+		return "member/signUp";
+	}
+	
+	@PostMapping("/signUpDo")
+	public String signUpDo(MemberVO vo) {
+		
+		System.out.println(vo);
+		
+		try {
+			service.signUpMember(vo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return "redirect:/login";
+	}
+	
+	
+	@GetMapping("/login")
+	public String login() {
+		return "member/login";
+	}
+	
+	@PostMapping("/loginDo")
+	public String loginDo(MemberVO vo, HttpSession session, Model model) throws Exception {
+		
+		try {
+			
+            MemberVO login = service.loginMember(vo);
+            session.setAttribute("login", login);
+            return "redirect:/home"; // 로그인 성공 시 홈으로 리다이렉트
+            
+        } catch (LoginFailedException e) {
+        	
+            model.addAttribute("error", e.getMessage()); // 오류 메시지를 모델에 추가
+            return "member/login"; // 로그인 페이지로 다시 이동
+            
+        } catch (Exception e) {
+        	
+            e.printStackTrace();
+            model.addAttribute("error", "로그인 중 오류가 발생했습니다.");
+            return "member/login";
+            
+        }
+	}
+	
+	
+	@PostMapping("/logoutDo")
+	public String logoutDo(HttpSession session) {
+		
+		session.invalidate();
+		
+		return "redirect:/";
+		
+	}
+	
+	@GetMapping("/mypage")
+	public String mypage(HttpSession session, Model model) {
+		
+		if(session.getAttribute("login") == null) {
+			return "redirect:/login";
+		}
+		
+		return "member/mypage";
+	}
+	
+	
+}

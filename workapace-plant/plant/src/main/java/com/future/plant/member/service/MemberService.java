@@ -1,0 +1,42 @@
+package com.future.plant.member.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DuplicateKeyException;
+import org.springframework.stereotype.Service;
+
+import com.future.plant.common.exception.BizException;
+import com.future.plant.member.dao.IMemberDAO;
+import com.future.plant.member.vo.MemberVO;
+
+@Service
+public class MemberService {
+	
+	@Autowired
+	IMemberDAO dao;
+	
+	public void signUpMember(MemberVO vo) throws  DuplicateKeyException  // db 중복 오류 잡아줌
+											    , DataAccessException    // db 오류
+											    , BizException {          // 비지니스 오류
+		int result = dao.signUpMember(vo);
+		
+		if(result == 0) {
+			throw new BizException();
+		}
+		
+	}
+	
+	public MemberVO loginMember(MemberVO vo) throws BizException {
+		
+		MemberVO user = dao.loginMember(vo);
+		
+		if(user == null) {
+			throw new BizException("아이디가 존재하지 않습니다.");
+		}
+		
+		return user;
+		
+	}
+	
+	
+}

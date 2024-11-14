@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+layout:decorate="layout/default_layout"
+layout:fragment="content">
+        
+        <section class="page-section cta">
+		    <div class="container-fluid"> <!-- 변경: container-fluid로 패딩 제거 -->
+		        <div class="row">
+		            <div class="col-xl-9 mx-auto">
+		                <div class="cta-inner bg-faded text-center rounded">
+		                
+		                    <h2 class="map-heading mb-4">
+		                        <span class="map-heading-upper">특산물 찾기</span>
+		                    </h2>
+		                    
+		                    <!-- 박스 사이즈를 화면 가로 끝까지 확장 -->
+		                    <div class="plant-box mt-3">
+		                        <div class="map-content" id="map" style="display: flex; flex-direction: column; height: 100%; overflow: hidden;">
+		                        </div>
+		                    </div>
+		                    
+		                </div>
+		            </div>
+		        </div>
+		    </div>
+		</section>
+        <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=fb1f322e9276b2caa266aba56aa8e976&libraries=clusterer"></script>
+		<script src="/js/positions.js"></script>
+		
+		<script>
+		    // 지도 생성 옵션
+		    var mapContainer = document.getElementById('map'),
+		        mapOption = { 
+		            center: new kakao.maps.LatLng(36.34849275268393, 127.38217622211634),
+		            level: 10
+		        };
+		
+		    var map = new kakao.maps.Map(mapContainer, mapOption);
+		
+		    // 마커 클러스터러 생성
+		    var clusterer = new kakao.maps.MarkerClusterer({
+		        map: map,
+		        averageCenter: true,
+		        minLevel: 10
+		    });
+		
+		    // positions 배열을 사용하여 마커 생성 및 인포윈도우 추가
+		    var markers = positions.map(function(position) {
+		        var marker = new kakao.maps.Marker({
+		            position: position.latlng
+		        });
+		
+		        var infowindow = new kakao.maps.InfoWindow({
+		            content: position.content
+		        });
+		
+		        kakao.maps.event.addListener(marker, 'click', function() {
+		            infowindow.open(map, marker);
+		        });
+		
+		        kakao.maps.event.addListener(marker, 'click', function() {
+		            infowindow.close();
+		        });
+		
+		        return marker;
+		    });
+		
+		    // 클러스터러에 마커 추가
+		    clusterer.addMarkers(markers);
+		</script>
+				
+
+</html>

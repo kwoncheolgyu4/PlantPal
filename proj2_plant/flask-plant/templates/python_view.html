@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<body>
+
+        <section class="page-section cta">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-9 mx-auto">
+                        <div class="cta-inner bg-faded text-center rounded">
+
+                            <h2 class="section-heading mb-4">
+                                <span class="section-heading-upper">분석하기</span>
+                            </h2>
+                            <!-- 업로드 폼 -->
+                            <form id="uploadForm" enctype="multipart/form-data" class="d-flex justify-content-between align-items-center">
+                                <input type="file" name="file" id="fileUpload" class="d-none"> <!-- 숨겨진 파일 선택 input -->
+                                <label for="fileUpload" class="btn btn-primary responsive-input">파일 선택</label> <!-- 커스텀 파일 선택 버튼 (좌측) -->
+                                <button type="submit" class="btn btn-success responsive-input" id="upload">실행</button> <!-- 실행 버튼 (우측) -->
+                            </form>
+
+                            <!-- 외곽 사이즈에 비례한 박스 -->
+                            <div class="ratio-box mt-3">
+                                <!-- 첫 번째 box-content: 업로드된 이미지 표시 -->
+                                <div class="box-content" style="display: flex; flex-direction: column; height: 100%; overflow: hidden;">
+                                    <!-- 위쪽 박스 (3/4 차지) -->
+                                    <div style="flex: 3; display: flex; align-items: center; justify-content: center; overflow: hidden; width: 100%; height: 100%;">
+                                        <img id="uploadedImage" src="#" alt="업로드된 이미지"  style="display:none; width: 100%; height: 100%; border-radius: 8px;">
+                                    </div>
+
+                                    <!-- 아래쪽 박스 (1/4 차지) -->
+                                    <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding-top: 10px;">
+                                        <p id="predictionResult" style="font-weight: bold; margin-bottom: 5px; color:white;"></p>
+                                        <p id="confidenceLevel" style="font-weight: bold; color: gray; color:white; "></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    <script>
+        $(document).ready(function() {
+            $("#upload").click(function(event){
+                // 폼 기본 제출 방지
+                event.preventDefault();
+
+                // 파일이 선택되었는지 확인
+                if ($("#fileUpload")[0].files.length === 0) {
+                    alert("파일을 선택해주세요.");
+                    return;
+                }
+
+                var formData = new FormData($('#uploadForm')[0]);
+
+                $.ajax({
+                    url: "http://192.168.0.22:5000/upload",
+                    type: "POST",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(res) {
+                        console.log("Response:", res);
+                        // 업로드된 이미지 표시
+                        $("#uploadedImage").attr("src", res.file_path).show();
+
+                        // 업로드 상태 메시지
+                        $("#uploadStatus").text("파일 업로드 및 분석 성공!");
+
+                        // 분석 결과 및 신뢰도 표시
+                        $("#predictionResult").html(`분석 결과: ${res.prediction}`);
+                        $("#confidenceLevel").html(`신뢰도: ${res.confidence.toFixed(2)}%`);
+                    },
+                    error: function(e) {
+                        console.log("Error:", e);
+                        $("#uploadStatus").text("파일 업로드 실패!");
+                    }
+                });
+            });
+        });
+
+        // 파일 선택 시 파일 이름 업데이트
+        document.getElementById('fileUpload').onchange = function() {
+            const fileLabel = document.querySelector('label[for="fileUpload"]');
+            const file = this.files[0];
+
+            if (file) {
+                const fileName = file.name;
+                const shortenedName = fileName.length > 4 ? fileName.substring(0, 4) + "..." : fileName;
+                fileLabel.innerText = shortenedName;
+            }
+        };
+    </script>
+
+</body>
+</html>

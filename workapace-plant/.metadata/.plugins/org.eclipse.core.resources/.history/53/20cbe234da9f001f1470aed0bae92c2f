@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+	<div th:fragment="headerFragment">
+		
+		<!-- Nav -->
+		<nav id="nav">
+			<a th:href="@{/home}" class="icon solid fa-home"><span>Home</span></a> 
+			<a th:href="@{member/login}" class="icon solid fa-folder"><span>Login</span></a> 
+			<a href="#contact" class="icon solid fa-envelope"><span>Sign Up</span></a>
+			<a href="#" class="icon brands fa-twitter"><span>Twitter</span></a>
+		</nav>
+		
+	</div>
+
+</html>

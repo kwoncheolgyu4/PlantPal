@@ -1,0 +1,130 @@
+package com.future.plant.member.web;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DuplicateKeyException;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import com.future.plant.common.exception.BizException;
+import com.future.plant.common.valid.Login;
+import com.future.plant.common.valid.Regist;
+import com.future.plant.common.vo.MessageVO;
+import com.future.plant.member.service.MemberService;
+import com.future.plant.member.vo.MemberVO;
+
+import jakarta.servlet.http.HttpSession;
+
+@Controller
+public class MemberController {
+	
+	@Autowired
+	MemberService service;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
+	@GetMapping("/signUp")
+	public String signUp(@ModelAttribute("member") MemberVO member) {
+		return "member/signUp";
+	}
+	
+	@PostMapping("/signUpDo")
+	public String signUpDo(@Validated(Regist.class) @ModelAttribute("member") MemberVO member
+				            , BindingResult result
+				            , Model model ) {
+		
+		System.out.println("result" + result);
+		
+		if(result.hasErrors()) {
+			// @Validated의 member의 전달받음 매개변수가 조건에 맞지 않으면 hasErrors True
+			return "member/signUp";
+		}
+		
+		try {
+			member.setMemPw(passwordEncoder.encode(member.getMemPw()));
+			service.signUpMember(member);
+		} catch (DuplicateKeyException e) {
+			model.addAttribute("duplicateIdError", "중복된 아이디입니다!");
+			return "member/signUp";
+		} catch (DataAccessException e) {
+			MessageVO messageVO = new MessageVO(false, "회원가입","잘못된 입력입니다.","/signUp","회원가입");
+			model.addAttribute("messageVO", messageVO);
+			return "member/signUp";
+		} catch (BizException e) {
+			MessageVO messageVO = new MessageVO(false, "회원가입","회원가입 안됨!","/signUp","회원가입");
+			model.addAttribute("messageVO", messageVO);
+			return "member/signUp";
+		}
+		
+		MessageVO messageVO = new MessageVO(true, "회원가입","회원가입 성공!","/login","로그인");
+		// 리다이렉트시 데이터 전달
+		model.addAttribute("messageVO", messageVO);
+		
+		return "redirect:/login";
+	}
+	
+	
+	@GetMapping("/login")
+	public String login(@ModelAttribute("member") MemberVO member) {
+		return "member/login";
+	}
+	
+	@PostMapping("/loginDo")
+	public String loginDo(@Validated(Login.class) @ModelAttribute("member") MemberVO member
+						, BindingResult result
+						, HttpSession session
+						, Model model) throws Exception {
+		
+		if(result.hasErrors()) {
+			return "member/login";
+		}
+		
+		try {
+			MemberVO login = service.loginMember(member);
+			
+			// 입력한 비밀번호와 db의 암호화된 비번 비교 일치하면 true, 그렇지 않으면 false 반환
+			boolean match = passwordEncoder.matches(member.getMemPw(), login.getMemPw());
+			System.out.println(match);
+			if(login == null || !match) {
+				return "redirect:/login";
+			}
+			
+			session.setAttribute("login", login);
+			
+			return "redirect:/";
+		} catch (BizException e) {
+			
+			result.rejectValue("memId", "notFound", e.getMessage());
+	        return "member/signUp";
+	        
+		}
+		
+	}
+	
+	@PostMapping("/logoutDo")
+	public String logoutDo(HttpSession session) {
+		
+		session.invalidate();
+		
+		return "redirect:/";
+		
+	}
+	
+	@GetMapping("/mypage")
+	public String mypage(HttpSession session, Model model) {
+		
+		if(session.getAttribute("login") == null) {
+			return "redirect:/login";
+		}
+		
+		return "member/mypage";
+	}
+	
+}

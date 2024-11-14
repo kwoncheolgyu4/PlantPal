@@ -1,0 +1,13 @@
+package com.future.plant.member.exception;
+
+public class MemberNotFoundException extends RuntimeException {
+    public MemberNotFoundException(String message) {
+        super(message);
+    }
+}
+
+public class SignUpFailedException extends RuntimeException {
+    public SignUpFailedException(String message) {
+        super(message);
+    }
+}

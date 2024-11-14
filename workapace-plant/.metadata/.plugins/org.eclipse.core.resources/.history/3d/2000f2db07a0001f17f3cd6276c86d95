@@ -1,0 +1,21 @@
+spring.application.name=plant
+server.port=8080
+
+# oracle
+spring.datasource.driver-class-name=oracle.jdbc.driver.OracleDriver
+spring.datasource.url=jdbc:oracle:thin:@localhost:1521:xe
+spring.datasource.username=plant
+spring.datasource.password=plant
+
+#mybatis
+mybatis.mapper-locations=/mybatis/mapper/**/*.xml
+mybatis.type-aliases-package=com.future.plant.mapper
+mybatis.configuration.map-underscore-to-camel-case=true
+mybatis.configuration.jdbc-type-for-null=varchar
+
+
+spring.thymeleaf.prefix=classpath:/templates/
+spring.thymeleaf.suffix=.html
+spring.thymeleaf.mode=HTML
+spring.thymeleaf.cache=false
+spring.thymeleaf.check-template-location=true

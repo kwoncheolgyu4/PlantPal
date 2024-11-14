@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" 
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<th:block th:replace="fragments/head::headFragment"></th:block>
+
+<body class="is-preload">
+	<div th:replace="fragments/header::headerFragment"></div>
+	<div layout:fragment="content"></div>
+	<div th:replace="fragments/footer::footerFragment"></div>
+</body>
+</html>

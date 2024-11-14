@@ -1,0 +1,5 @@
+package com.future.plant.image.web;
+
+public class ImageController {
+
+}

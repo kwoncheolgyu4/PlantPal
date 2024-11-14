@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<th:block th:fragment="headFragment">
+		<head>
+			<title>식물을 판별하다</title>
+			<meta charset="utf-8" />
+			<meta name="viewport"
+				content="width=device-width, initial-scale=1, user-scalable=no" />
+			<link rel="stylesheet" href="/assets/css/main.css" />
+			<link rel="stylesheet" href="/assets/css/noscript.css" />
+			<script>
+			    document.addEventListener("DOMContentLoaded", function() {
+			        document.querySelector("link[href='/assets/css/noscript.css']").disabled = true;
+			    });
+			</script>
+		</head>
+	</th:block>
+</html>

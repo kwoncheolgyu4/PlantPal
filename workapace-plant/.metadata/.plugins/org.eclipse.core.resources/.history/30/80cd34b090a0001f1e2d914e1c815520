@@ -1,0 +1,5 @@
+package com.future.plant.common.vo;
+
+public class MessageVO {
+
+}

@@ -1,0 +1,5 @@
+package com.future.plant.common.config;
+
+public class SecurityConfig {
+
+}

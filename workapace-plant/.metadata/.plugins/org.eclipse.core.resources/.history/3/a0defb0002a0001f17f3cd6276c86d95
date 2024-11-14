@@ -1,0 +1,23 @@
+package com.future.plant.member.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.future.plant.member.dao.IMemberDAO;
+import com.future.plant.member.vo.memberVO;
+
+@Service
+public class MemberService {
+	
+	@Autowired
+	IMemberDAO dao;
+	
+	public void signUpMember(memberVO vo) {
+		
+		int result = dao.signUpMember(vo);
+		
+		
+	}
+	
+	
+}

@@ -1,0 +1,25 @@
+package com.future.plant.image.web;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.client.RestTemplate;
+
+@Controller
+public class ImageController {
+	
+	private final RestTemplate restTemplate = new RestTemplate();
+	
+	@GetMapping("/show-python-view")
+	public String showPythonView(Model model) {
+		
+		String pythonServerUrl = "http://127.0.0.1:5000/python-view";
+		String pythonViewHtml = restTemplate.getForObject(pythonServerUrl, String.class);
+		model.addAttribute("pythonView", pythonViewHtml);
+		return "pythonView"; // thymeleaf 템플릿에서 사용
+		
+	}
+	
+	
+	
+}

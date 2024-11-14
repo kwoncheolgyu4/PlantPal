@@ -1,0 +1,5 @@
+package com.future.plant.common.exception;
+
+public class BizException {
+
+}

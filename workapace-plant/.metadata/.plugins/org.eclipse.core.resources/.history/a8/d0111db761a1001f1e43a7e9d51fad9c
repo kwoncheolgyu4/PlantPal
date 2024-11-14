@@ -1,0 +1,5 @@
+package com.future.plant.plantmap.web;
+
+public class PlantMapController {
+
+}

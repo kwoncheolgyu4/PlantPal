@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+layout:decorate="layout/default_layout"
+layout:fragment="content">
+        
+       	<section class="page-section clearfix">
+            <div class="container">
+                <div class="intro">
+                    <img class="intro-img img-fluid mb-3 mb-lg-0 rounded" src="/assets/img/thumbnail.jpg" alt="..." />
+                    <div class="intro-text left-0 text-center bg-faded p-5 rounded">
+                        <h2 class="section-heading mb-4">
+                            <span class="section-heading-upper">PlantPal</span>
+                            <span class="section-heading-lower">자연의 비밀을<br>발견하세요</span>
+                        </h2>
+                        <p class="mb-3">모든 식물에는 저마다의 이야기가 담겨 있습니다. 울창한 숲부터 작은 도시 녹지까지, 사진 한 장으로 다양한 식물을 식별하고 알아갈 수 있습니다. 이 앱은 당신의 모든 야외 모험에서 믿음직한 동반자가 될 거예요. 사진을 찍기만 하면 손쉽게 식물을 알아볼 수 있고, 자연을 새로운 시선으로 보게 될 거라고 자신합니다!</p>
+                        <div class="intro-button mx-auto"><a class="btn btn-primary btn-xl" href="#!">Sign Up</a></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+</html>

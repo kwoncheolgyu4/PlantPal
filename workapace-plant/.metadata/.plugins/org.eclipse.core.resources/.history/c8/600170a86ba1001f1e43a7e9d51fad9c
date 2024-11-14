@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+layout:decorate="layout/default_layout"
+layout:fragment="content">
+        
+        <section class="page-section cta">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-9 mx-auto">
+                        <div class="cta-inner bg-faded text-center">
+
+                            <h2 class="section-heading mb-4">
+                                <span class="section-heading-upper">특산물 찾기</span>
+                            </h2>
+
+                            <!-- 외곽 사이즈에 비례한 박스 -->
+                            <div class="ratio-box mt-3">
+                                <!-- 첫 번째 box-content: 업로드된 이미지 표시 -->
+                                <div class="box-content" id="map" style="display: flex; flex-direction: column; height: 100%; overflow: hidden;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+		<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=fb1f322e9276b2caa266aba56aa8e976"></script>
+		<script>
+			var container = document.getElementById('map');
+			var options = {
+				center: new kakao.maps.LatLng(33.450701, 126.570667),
+				level: 3
+			};
+		
+			var map = new kakao.maps.Map(container, options);
+		</script>
+
+</html>

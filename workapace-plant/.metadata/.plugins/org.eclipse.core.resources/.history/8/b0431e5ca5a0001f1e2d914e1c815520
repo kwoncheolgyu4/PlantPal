@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:fragment="footerFragment">
+    
+        <footer class="footer text-faded text-center py-5">
+            <div class="container"><p class="m-0 small">Copyright &copy; Your Website 2024</p></div>
+        </footer>
+        
+        <!-- message Modal -->
+		<div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h1 class="modal-title fs-5" id="exampleModalLabel">${messageVO.title}</h1>
+		        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		      </div>
+			      <div class="modal-body">
+	                     <!-- message -->
+	                     <div class="mb-3">
+	                         <label for="title">${messageVO.message}</label>
+	                     </div>
+	                     <a href="<c:url value='${messageVO.url}' />" >
+	                     	${messageVO.urlTitle}
+	                     </a>
+			      </div>
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+			      </div>
+		    </div>
+		  </div>
+		</div>
+		
+		
+		
+		
+		
+		
+		
+		
+</html>
